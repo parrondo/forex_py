@@ -1,0 +1,4 @@
+name: frxpy
+dependencies:
+  - chainer
+  - pytorch
