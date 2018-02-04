@@ -22,11 +22,9 @@ class MyLogger(object):
     def __init__(self, name, output='', space=' ', level='INFO'):
         self.name = __name__
         self.logger = getLogger(name)
-        self.msgs = '%(message)20s'
         self.default_format = '%(asctime)20s  %(levelname)6s [%(name)20s]' \
-                              ' [L%(lineno)4d] [%(funcName)15s]::'
-        default_format = self._update_default_format()
-        formatter = Formatter(default_format)
+                              ' [L%(lineno)4d] [%(funcName)15s]:: %(message)20s'
+        formatter = Formatter(self.default_format)
         self.handler = StreamHandler()
         self.handler.setFormatter(formatter)
         self.logger.addHandler(self.handler)        
@@ -42,13 +40,7 @@ class MyLogger(object):
         """
         Fisrt-In-Last-Out
         """
-        self.clean()        
-        self.msgs.insert(len(self.msgs)-1, msg)
-        self.handler = StreamHandler()
-        default_format = self._update_default_format()
-        formatter = Formatter(default_format)
-        self.handler.setFormatter(formatter)
-        self.logger.addHandler(self.handler)
+        pass
 
     def _update_default_format(self):
         """
