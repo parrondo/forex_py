@@ -28,6 +28,12 @@ def config():
     assert workdir, f'workdir is required'
     ### END check arguments ###
 
+    def setup(workdir):
+        workdir = Path(workdir)
+        logdir = workdir / 'log'
+        ex.observers.append(FileStorageObserver.create(logdir))
+    setup(workdir)
+
 
 @ex.capure
 def get_trainer():

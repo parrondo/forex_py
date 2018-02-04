@@ -4,13 +4,19 @@
 from sacred import Experiment
 from sacred.observers import FileStorageObserver
 
-ex = Experiment('evaluate')
-exp_path = str((EXP_ROOT_PATH / 'evaluate').resolve())
-ex.observers.append(FileStorageObserver.create(exp_path))
-
+ex = Experiment('evaluation')
 
 @ex.config
 def config():
+    workdir: str = ''
+    # required
+
+    def setup(workdir):
+        workdir = Path(workdir)
+        logdir = workdir / 'log'
+        ex.observers.append(FileStorageObserver.create(logdir))
+    setup(workdir)
+
     pass
 
 @ex.automain
