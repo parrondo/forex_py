@@ -86,6 +86,19 @@ Histdata provides histrical forex data. The data is available for free.
 
 * http://www.histdata.com/
 
+suported data type
+*************
+
+* Tick Data
+* Generic .CSV File
+
+gap treatment  
+************
+
+There are gaps in data. So, I convert the gaps to the averages
+between the value before the gaps and the value after the gaps.
+
+
 Examples
 ---------------------  
 
