@@ -7,11 +7,11 @@ from sacred import Experiment
 from sacred.observers import FileStorageObserver
 
 from frxpy.utils.mylogger import MyLogger
-from frxpy.data.preparation import check_consistency
-from frxpy.data.preparation import csv2hdf5
-from frxpy.data.preparation import csv2json
+from frxpy.data.preprocess import check_consistency
+from frxpy.data.preprocess import csv2hdf5
+from frxpy.data.preprocess import csv2json
 
-ex = Experiment('preparation')
+ex = Experiment('preprocess')
 
 
 @ex.config
@@ -34,9 +34,9 @@ def config():
         'inputs files'
     ### End check arguments ###
 
-    ### preparation ###
+    ### preprocess ###
     inputs = []
-    ### End preparation ###
+    ### End preprocess ###
 
     def setup(workdir):
         workdir = Path(workdir)
