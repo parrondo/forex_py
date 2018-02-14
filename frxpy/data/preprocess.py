@@ -21,5 +21,4 @@ def csv2hdf5(files):
 
 def csv2json(data):
     logger = MyLogger('csv2json')
-    
     pass

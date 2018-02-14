@@ -13,7 +13,6 @@ from frxpy.data.preprocess import csv2json
 
 ex = Experiment('preprocess')
 
-
 @ex.config
 def config():
     workdir = ''
@@ -46,7 +45,9 @@ def config():
 
 @ex.capture    
 def get_inputs(inputs):
-    inputs_path = Path(inputs).parent.resolve()
+    inputs_path = Path(inputs)
+    assert False, inputs_path.exists()
+    assert inputs_path.exists(), f'{str(inputs_path)} does not exist.'
     inputs_keyward = Path(inputs).name
     _inputs = [ str(i) for i in list(Path(inputs_path).glob(inputs_keyward)) ]
     del inputs_path
@@ -60,5 +61,4 @@ def run(_log, workdir, inputs, output_data_type, data_shape):
     _log.info(f'output data type is [ {output_data_type} ].')
     _log.info(f'workdir is [ {workdir} ].')
     _log.info(f'inputs are {inputs}.')    
-
     csv2hdf5(inputs)

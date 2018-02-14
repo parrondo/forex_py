@@ -2,6 +2,7 @@
 
 import torch
 import torch.optim
+import torch.nn as nn
 
 class Classifier(nn.Module):
     def __init__(self, model, criterion):
@@ -62,8 +63,8 @@ class MyTrainer(object):
                 pass
         
     def train(self,
-              train_iter: torch.utils.data.DataLoder,
-              test_iter: torch.utils.data.DataLoder,
+              train_iter,
+              test_iter,
     ):
         for i in range(self.epochs):
             pass
