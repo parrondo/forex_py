@@ -7,21 +7,20 @@ from sacred import Experiment
 from sacred.observers import FileStorageObserver
 
 from frxpy.utils.mylogger import MyLogger
-from frxpy.data.preprocess import check_consistency
 from frxpy.data.preprocess import csv2hdf5
 from frxpy.data.preprocess import csv2json
 
 ex = Experiment('preprocess')
+ex.logger =  MyLogger('preprocess').get_logger()
 
 @ex.config
 def config():
     workdir = ''
-    inputs = ''
-    data = '' # data is csv files
+    datadir = '' # datadir contains csv files.
     
     output_data_type = 'hdf5'
     data_shape = ''
-    inputs = []
+
     whitening = True
 
     ### check arguments ###
@@ -29,12 +28,12 @@ def config():
         "data_convert_type in ['hdf5', 'json', 'leveldb', 'protobuf']"
     assert workdir, 'workdir is required: ' \
         '"[prog] with workdir=/path/to/your/dir"'
-    assert inputs, 'inputs are required: ' \
-        'inputs files'
+    assert datadir, 'datadir is required: '
+    
     ### End check arguments ###
-
+    
     ### preprocess ###
-    inputs = []
+    workdir = str(Path(workdir).resolve())
     ### End preprocess ###
 
     def setup(workdir):
@@ -44,20 +43,18 @@ def config():
     setup(workdir)
 
 @ex.capture    
-def get_inputs(inputs):
-    inputs_path = Path(inputs)
-    assert False, inputs_path.exists()
-    assert inputs_path.exists(), f'{str(inputs_path)} does not exist.'
-    inputs_keyward = Path(inputs).name
-    _inputs = [ str(i) for i in list(Path(inputs_path).glob(inputs_keyward)) ]
-    del inputs_path
-    del inputs_keyward
+def get_csvs(_log, datadir:str):
+    parent_path = Path(datadir)
+    inputs_keyward = '*.csv'
+    _log.info(parent_path)    
+    _log.info(inputs_keyward)
+    _inputs = [str(i) for i in list(Path(parent_path).glob(inputs_keyward))]
     return _inputs
 
 @ex.automain
-def run(_log, workdir, inputs, output_data_type, data_shape):
+def run(_log, workdir, output_data_type, data_shape):
     workdir = str(Path(workdir).resolve())
-    inputs = get_inputs()
+    inputs = get_csvs()
     _log.info(f'output data type is [ {output_data_type} ].')
     _log.info(f'workdir is [ {workdir} ].')
     _log.info(f'inputs are {inputs}.')    

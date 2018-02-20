@@ -10,7 +10,7 @@ class TestPreprocess(unittest.TestCase):
         pass
 
     def test_get_inputs(self):
-        assert False, (get_inputs('test.csv'))
+        get_inputs(
 
 if __name__ == '__main__':
     unittest.run()
